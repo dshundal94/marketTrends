@@ -105,7 +105,7 @@ combined12 = combined11.append(train_20806)
 combined12.drop('Address - Zip Code', inplace = True, axis =1)
 
 #only focusing on the price per square feet to forecast trends
-combined_areas = combined12.set_index('Selling Date').resample('M').median()
+combined_areas = combined12.set_index('Selling Date').resample('SM').median()
 combined_areas.plot(y = ['Price Per Sq Ft'])
 plt.legend(loc="upper left", bbox_to_anchor=(1,1))
 plt.ylabel('Price Per Square Feet')
@@ -161,21 +161,21 @@ ts_log_diff.dropna(inplace=True)
 
 #ACF and PACF plots: ACF - Autocorrelation Function, PACF - Partial ACF
 from statsmodels.tsa.stattools import acf, pacf
-lag_acf = acf(ts_log, nlags=20)
-lag_pacf = pacf(ts_log, nlags=20, method='ols')
+lag_acf = acf(ts_log_ewma_diff, nlags=20)
+lag_pacf = pacf(ts_log_ewma_diff, nlags=20, method='ols')
 #Plot ACF: 
 plt.subplot(121) 
 plt.plot(lag_acf)
 plt.axhline(y=0,linestyle='--',color='gray')
-plt.axhline(y=-1.96/np.sqrt(len(ts_log)),linestyle='--',color='gray')
-plt.axhline(y=1.96/np.sqrt(len(ts_log)),linestyle='--',color='gray')
+plt.axhline(y=-1.96/np.sqrt(len(ts_log_ewma_diff)),linestyle='--',color='gray')
+plt.axhline(y=1.96/np.sqrt(len(ts_log_ewma_diff)),linestyle='--',color='gray')
 plt.title('Autocorrelation Function')
 #Plot PACF:
 plt.subplot(122)
 plt.plot(lag_pacf)
 plt.axhline(y=0,linestyle='--',color='gray')
-plt.axhline(y=-1.96/np.sqrt(len(ts_log)),linestyle='--',color='gray')
-plt.axhline(y=1.96/np.sqrt(len(ts_log)),linestyle='--',color='gray')
+plt.axhline(y=-1.96/np.sqrt(len(ts_log_ewma_diff)),linestyle='--',color='gray')
+plt.axhline(y=1.96/np.sqrt(len(ts_log_ewma_diff)),linestyle='--',color='gray')
 plt.title('Partial Autocorrelation Function')
 plt.tight_layout()
 plt.show()
