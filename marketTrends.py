@@ -105,7 +105,7 @@ combined12 = combined11.append(train_20806)
 combined12.drop('Address - Zip Code', inplace = True, axis =1)
 
 #only focusing on the price per square feet to forecast trends
-combined_areas = combined12.set_index('Selling Date').resample('SM').median()
+combined_areas = combined12.set_index('Selling Date').resample('M').median()
 combined_areas.plot(y = ['Price Per Sq Ft'])
 plt.legend(loc="upper left", bbox_to_anchor=(1,1))
 plt.ylabel('Price Per Square Feet')
